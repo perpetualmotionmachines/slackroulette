@@ -1,62 +1,70 @@
 {
-  "name": "Server",
-  "version": "1.0.0",
-  "description": "Multi-Chat Client",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server/server.js",
-    "build": "webpack --mode production",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./\" \"nodemon ./server/server.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tonyito/peptyde.git"
-  },
-  "keywords": [
-    "lab",
-    "inventory",
-    "manager"
-  ],
-  "author": "Team Eevee",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/perpetualmotionmachines/slackroulette"
-  },
-  "homepage": "https://github.com/perpetualmotionmachines/slackroulette",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "body-parser": "^1.18.3",
-    "bootstrap": "^4.4.1",
-    "concurrently": "^5.1.0",
-    "cross-env": "^7.0.0",
-    "express": "^4.17.1",
-    "fs": "0.0.1-security",
-    "mongodb": "^3.5.3",
-    "mongoose": "^5.9.1",
-    "node-fetch": "^2.3.0",
-    "pg": "^7.12.1",
-    "react": "^16.12.0",
-    "react-bootstrap": "^1.0.0-beta.16",
-    "react-dom": "^16.12.0",
-    "react-hot-loader": "^4.6.3",
-    "react-router-dom": "^5.1.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "@babel/preset-react": "^7.8.3",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.2",
-    "file-loader": "^4.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.13.1",
-    "nodemon": "^1.18.9",
-    "sass-loader": "^8.0.2",
-    "style-loader": "^1.1.3",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-hot-middleware": "^2.24.3"
-  }
+    "name": "Server",
+    "version": "1.0.0",
+    "description": "Multi-Chat Client",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server/server.js",
+        "build": "webpack --mode production",
+        "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./\" \"nodemon ./server/server.js\"",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "eslintConfig": {
+        "extends": [
+            "airbnb",
+            "plugin:prettier/recommended",
+            "prettier/react",
+            "react-app"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tonyito/peptyde.git"
+    },
+    "keywords": [
+        "lab",
+        "inventory",
+        "manager"
+    ],
+    "author": "Team Eevee",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/perpetualmotionmachines/slackroulette"
+    },
+    "homepage": "https://github.com/perpetualmotionmachines/slackroulette",
+    "dependencies": {
+        "axios": "^0.19.2",
+        "body-parser": "^1.18.3",
+        "bootstrap": "^4.4.1",
+        "concurrently": "^5.1.0",
+        "cross-env": "^7.0.0",
+        "express": "^4.17.1",
+        "fs": "0.0.1-security",
+        "mongodb": "^3.5.3",
+        "mongoose": "^5.9.1",
+        "node-fetch": "^2.3.0",
+        "pg": "^7.12.1",
+        "react": "^16.12.0",
+        "react-bootstrap": "^1.0.0-beta.16",
+        "react-dom": "^16.12.0",
+        "react-hot-loader": "^4.6.3",
+        "react-router-dom": "^5.1.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.8.4",
+        "@babel/preset-env": "^7.8.4",
+        "@babel/preset-react": "^7.8.3",
+        "babel-loader": "^8.0.6",
+        "css-loader": "^3.4.2",
+        "file-loader": "^4.0.0",
+        "html-webpack-plugin": "^3.2.0",
+        "node-sass": "^4.13.1",
+        "nodemon": "^1.18.9",
+        "sass-loader": "^8.0.2",
+        "style-loader": "^1.1.3",
+        "webpack": "^4.41.6",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.10.3",
+        "webpack-hot-middleware": "^2.24.3"
+    }
 }
