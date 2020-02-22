@@ -1,3 +1,8 @@
 node_modules
+<<<<<<< HEAD
 ./package-lock.json
 ./secrets.js
+=======
+/server/config/db.js
+package-lock.json
+>>>>>>> c8466af305eb85887fb356f08666531ef1db4d32
