@@ -9,6 +9,8 @@ const PORT = 3000;
 const MONGO_URI = `mongodb+srv://eevee:eevee@cluster0-nphgk.mongodb.net/test?retryWrites=true&w=majority`;
 mongoose.connect(MONGO_URI);
 
+app.use(express.json());
+
 app.post(
     '/signup',
     signupController.createUser,
