@@ -1,25 +1,32 @@
+const SECRET = require('./config/db.js')
+const chatRouter = require('./routes/chatRoute.js')
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const signupController = require('./controllers/signupController');
-const verifyUserController = require('./controllers/verifyUserController');
 const PORT = 3000;
-
-const MONGO_URI = `mongodb+srv://eevee:eevee@cluster0-nphgk.mongodb.net/test?retryWrites=true&w=majority`;
+const MONGO_URI = SECRET;
 mongoose.connect(MONGO_URI);
 
-app.post(
-    '/signup',
-    signupController.createUser,
-    verifyUserController.verifyUser,
-    (req, res) => {
-        res.status(200).redirect('/');
-    }
-);
+app.use(express.json());
+
+app.use('/chatRoute', chatRouter);
+
+app.use((req, res) => res.sendStatus(404));
+
+app.use((err, req, res, next) => {
+    const defaultErr = {
+      log: 'Express error handler caught unknown middleware error',
+      status: 400,
+      message: { err: 'An error occurred' },
+    };
+    const errorObj = Object.assign({}, defaultErr, err);
+    console.log(errorObj.log);
+    return res.status(errorObj.status).json(errorObj.message);
+  });
+
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
-
 module.exports = app;
