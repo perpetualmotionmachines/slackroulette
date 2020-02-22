@@ -4,7 +4,7 @@ import App from './components/app.jsx';
 // import SignUp from './components/SignUp.jsx';
 // import Login from './components/Login.jsx'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './stylesheets/styles.css';
+import './stylesheets/tonyStyles.css';
 
 const Index = () => {
   return (
