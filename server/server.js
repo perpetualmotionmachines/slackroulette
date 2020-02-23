@@ -2,6 +2,7 @@ const SECRET = require('./config/db.js');
 const chatRouter = require('./routes/chatRoute.js');
 const signupRouter = require('./routes/signupRoute');
 const loginRouter = require('./routes/loginRoute');
+
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -13,8 +14,10 @@ mongoose.connect(MONGO_URI);
 app.use(express.json());
 
 app.use('/chatRoute', chatRouter);
+
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
+
 
 app.use((req, res) => res.sendStatus(404));
 
@@ -29,7 +32,9 @@ app.use((err, req, res, next) => {
     return res.status(errorObj.status).json(errorObj.message);
 });
 
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
+
 module.exports = app;
