@@ -1,6 +1,7 @@
 const model = require('../models/userModel');
 const { User } = model;
 const userController = {};
+const bcrypt = require('bcrypt');
 
 userController.verifyUser = (req, res, next) => {
     const checkUser = {
