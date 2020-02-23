@@ -15,16 +15,10 @@ module.exports = {
         port: 8080,
         // match the output path
         contentBase: path.resolve(__dirname, 'dist'),
-        // enable HMR on the devServer
-        hot: true,
         // match the output 'publicPath'
         publicPath: '/',
         // fallback to root for other urls
         historyApiFallback: true,
-
-        inline: true,
-
-        headers: { 'Access-Control-Allow-Origin': '*' },
         /**
          * proxy is required in order to make api calls to
          * express server while using hot-reload webpack server
@@ -32,11 +26,11 @@ module.exports = {
          * to localhost:3000/api/* (where our Express server is running)
          */
         proxy: {
-            '/chatRoute/**': {
+            '/api/**': {
                 target: 'http://localhost:3000/',
                 secure: false
             },
-            '/api/**': {
+            '/chatRoute/**': {
                 target: 'http://localhost:3000/',
                 secure: false
             }

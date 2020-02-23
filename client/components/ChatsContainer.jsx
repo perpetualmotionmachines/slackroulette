@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const ChatsContainer = () => {
     const [renderStatus, setRenderStatus] = useState(false);
-    const [messageLogCollection, setMessageLogCollection] = useState([]);
+    const [messageLogCollection, setMessageLogCollection] = useState({});
 
     useEffect(() => {
       ////////DUMMY TEXT/////////////
@@ -24,22 +24,25 @@ const ChatsContainer = () => {
       // ]);
 
       if (!renderStatus) {
-        axios
-          .get('chatRoute/')
+
+          fetch('chatRoute/')
+          .then(res => res.json())
           .then(data => {
-            console.log(data);
+            setMessageLogCollection(data);
             setRenderStatus(true);
-          })
+          }, [renderStatus])
           .catch(err => console.log('Location: fetch /chatRoute: ERROR: ', err));
         //get request for all items in selected location
       }
-    }, [renderStatus]);
+    });
 
     const array = [];
-    // for (let i = 0; i < 2; i++) array.push(<ChatBoxMini key={`box ${i}`} logs={messageLogCollection[i]}/>);
 
   if (!renderStatus) return <h1>Loading...</h1>
   else {
+    console.log(messageLogCollection[0]);
+    // for  (let i = 0; i < messageLogCollection.data.length; i++) array.push(<ChatBoxMini key={`box ${i}`} logs={messageLogCollection[i]}/>);
+
   return (
     <React.Fragment>
     <div className='chatcontainer'>
@@ -51,3 +54,4 @@ const ChatsContainer = () => {
 };
 
 export default ChatsContainer;
+
