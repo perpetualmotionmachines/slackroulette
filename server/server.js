@@ -2,6 +2,7 @@ const SECRET = require('./config/db.js');
 const chatRouter = require('./routes/chatRoute.js');
 const signupRouter = require('./routes/signupRoute');
 const loginRouter = require('./routes/loginRoute');
+
 const createRoomController = require('./controllers/createRoomController');
 const signupController = require('./controllers/signupController');
 const verifyUserController = require('./controllers/verifyUserController');
@@ -45,7 +46,9 @@ app.use((err, req, res, next) => {
     return res.status(errorObj.status).json(errorObj.message);
 });
 
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
+
 module.exports = app;
