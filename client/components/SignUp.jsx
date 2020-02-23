@@ -32,15 +32,15 @@ const SignUp = () => {
             <section className="signUpInfo">
                 <label>
                     Email:
-                    <input type="text" name="email" value={email} onChange={setInputs({email: e.target.value})} />
+                    <input type="text" name="email" value={email} onChange={e => setInputs({email: e.target.value})} />
                 </label>
                 <label>
                     Username:
-                    <input type="text" name="username" value={username} onChange={setInputs({username: e.target.value})} />
+                    <input type="text" name="username" value={username} onChange={e => setInputs({username: e.target.value})} />
                 </label>
                 <label>
                     Password:
-                    <input type="text" name="password" value={password} onChange={setInputs({password: e.target.value})} />
+                    <input type="text" name="password" value={password} onChange={e => setInputs({password: e.target.value})} />
                 </label>
             </section>
             <button type="submit" onClick={() => {handleSubmission()}}>
