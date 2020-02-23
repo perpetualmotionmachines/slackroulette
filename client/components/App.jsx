@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ChatContainer from './ChatsContainer.jsx'
 import Header from './Header.jsx'
 
@@ -14,6 +15,7 @@ const App = () => {
   </div>
 </React.Fragment>
   );
+
 };
 
 export default App;

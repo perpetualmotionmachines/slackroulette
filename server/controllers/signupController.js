@@ -3,6 +3,7 @@ const signupController = {};
 const { User } = model;
 
 signupController.createUser = (req, res, next) => {
+    console.log(req.body);
     const userInfo = {
         username: req.body.username,
         email: req.body.email,
