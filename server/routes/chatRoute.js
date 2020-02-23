@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("../models/chatModel");
+const models = require("../models/chatModel");
 
-router.get("/", (req, res) => {
-    console.log('here');
-    Chat.find({}, (err, response) => {
+const { Chats } = models;
+
+router.get("/", 
+
+(req, res, next) => {
+
+    Chats.find({}, (err, response) => {
         if (err) {
             return next({
               log: `Express error handler caught an error getting chat logs: ${err}`,
@@ -12,9 +16,14 @@ router.get("/", (req, res) => {
               message: { err: `${err}` }
             });
         }
-        res.locals.response = response;
-    }, (req, res) =>
-    res.status(200).json(res.locals.response))
-});
+        else {
+        console.log(response);
+        return next();
+        }
+    }) 
+},
+
+(req, res) =>
+    res.json(res.locals.response));
 
 module.exports = router;
