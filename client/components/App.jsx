@@ -1,15 +1,21 @@
 import React from 'react';
-import ChatContainer from './ChatsContainer';
+
+import ChatContainer from './ChatsContainer.jsx'
+import Header from './Header.jsx'
 
 const App = () => {
-    return (
-        <>
-            <h1>Hello</h1>
-            <div>
-                <ChatContainer />
-            </div>
-        </>
-    );
+  return (
+    <React.Fragment>
+    <h1>Hello</h1>
+    <div>
+      <Header />
+    </div>
+    <div>
+    <ChatContainer />
+  </div>
+</React.Fragment>
+  );
+
 };
 
 export default App;

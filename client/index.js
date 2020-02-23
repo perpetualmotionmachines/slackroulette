@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app.jsx';
-// import SignUp from './components/SignUp.jsx';
-// import Login from './components/Login.jsx'
+import SignUp from './components/SignUp.jsx';
+import Login from './components/Login.jsx'
+import CreateRoom from './components/CreateRoom.jsx';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './stylesheets/tonyStyles.css';
 
@@ -11,6 +12,15 @@ const Index = () => {
     <div>
       <Router>
         <Switch>
+          <Route exact path="/create">
+            <CreateRoom />
+          </Route>
+          <Route exact path="/signup">
+            <SignUp />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
           <Route path="/">
             <App />
           </Route>
