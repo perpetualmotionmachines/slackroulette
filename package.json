@@ -26,6 +26,7 @@
   "homepage": "https://github.com/perpetualmotionmachines/slackroulette",
   "dependencies": {
     "axios": "^0.19.2",
+    "bcrypt": "^4.0.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
