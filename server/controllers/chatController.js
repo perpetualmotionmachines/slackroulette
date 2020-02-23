@@ -1,4 +1,4 @@
-const models = require("../models/chatModel");
+const models = require('../models/chatModel');
 const chatController = {};
 
 const { Chats } = models;
@@ -17,6 +17,6 @@ chatController.getLogs = (req, res, next) => {
          res.locals.result = result;
          return next(); 
      });      
-}
+};
 
 module.exports = chatController;
