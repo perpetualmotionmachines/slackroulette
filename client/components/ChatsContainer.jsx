@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const ChatsContainer = () => {
     const [renderStatus, setRenderStatus] = useState(false);
-    const [messageLogCollection, setMessageLogCollection] = useState([]);
+    const [messageLogCollection, setMessageLogCollection] = useState({});
 
     useEffect(() => {
         ////////DUMMY TEXT/////////////
@@ -23,22 +23,22 @@ const ChatsContainer = () => {
         //   ],
         // ]);
 
-        if (!renderStatus) {
-            axios
-                .get('chatRoute/')
-                .then(data => {
-                    console.log(data);
-                    setRenderStatus(true);
-                })
-                .catch(err =>
-                    console.log('Location: fetch /chatRoute: ERROR: ', err)
-                );
-            //get request for all items in selected location
-        }
+      if (!renderStatus) {
+
+          fetch('chatRoute/')
+          .then(res => res.json())
+          .then(data => {
+            setMessageLogCollection(data);
+            setRenderStatus(true);
+          }, [renderStatus])
+          .catch(err => console.log('Location: fetch /chatRoute: ERROR: ', err));
+        //get request for all items in selected location
+      }
+      // below [renderStatus] may be unnecessary -- if experiencing bugs, test removing it and run the useEffect without it
     }, [renderStatus]);
 
+
     const array = [];
-    // for (let i = 0; i < 2; i++) array.push(<ChatBoxMini key={`box ${i}`} logs={messageLogCollection[i]}/>);
 
     if (!renderStatus) return <h1>Loading...</h1>;
     else {

@@ -16,6 +16,7 @@ mongoose
 
 const Schema = mongoose.Schema;
 
+
 const ChatSchema = new Schema({
     user: {
         type: String,
