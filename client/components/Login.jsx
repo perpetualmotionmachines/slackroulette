@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { signin, authenticate, isAuthenticated } from '../auth/index';
 
 /**
  * This is the Login Screen;
- * It is accessed/routed FROM the ViewRooms component;
+ * It is accessed/routed FROM the viewRooms page, specifically from the Header component;
  * It should re-route back to viewRooms;
  *
  * This code was implemented by : Lance J -- please reach out w/ questions or modifications
@@ -15,7 +15,6 @@ const Login = () => {
     // we ask for a name, email, password
     const [values, setValues] = useState({
         email: '',
-        username: '',
         password: '',
         error: '',
         loading: false,
@@ -27,8 +26,11 @@ const Login = () => {
     // higher order -- function that returns a function
     const handleChange = nameOfEvent => event => {
         setValues({
+            // spread the existing values
             ...values,
+            // overwrite error to be false
             error: false,
+            //
             [nameOfEvent]: event.target.value
         });
     };
@@ -37,7 +39,7 @@ const Login = () => {
         // prevents browser from refreshing
         event.preventDefault();
         setValues({ ...values, error: false, loading: true });
-        // destructures the email/password from the event and passes it as a 'user' object to signup method
+        // destructures the email/password from the event and passes it as a 'user' object to signin method --> calls then invokes authenticate
         signin({ email, password }).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error, loading: false });
@@ -52,11 +54,15 @@ const Login = () => {
         });
     };
 
+    // renders the actual signin form on the page
+    // TO DO: Eslint is throwing errors because labels are not a11y compliant. Needs fixing
     const signinForm = () => {
         return (
             <div className="login-container">
                 <form>
-                    <h1 className="heading">Login</h1>
+                    <h1 className="heading">
+                        Please log in to join a chat room
+                    </h1>
                     <div className="form-group">
                         <label className="text-muted">Email</label>
                         <input
@@ -64,16 +70,7 @@ const Login = () => {
                             type="text"
                             className="form-control"
                             value={email}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="text-muted">Username</label>
-                        <input
-                            onChange={handleChange('email')}
-                            type="text"
-                            className="form-control"
-                            value={username}
+                            required
                         />
                     </div>
 
@@ -81,13 +78,17 @@ const Login = () => {
                         <label className="text-muted">Password</label>
                         <input
                             onChange={handleChange('password')}
-                            type="text"
+                            type="password"
                             className="form-control"
                             value={password}
                         />
                     </div>
-                    <button onClick={clickSubmit} className="btn btn-primary">
-                        Submit
+                    <button
+                        type="submit"
+                        onClick={clickSubmit}
+                        className="btn btn--primary"
+                    >
+                        Log in
                     </button>
                 </form>
             </div>
@@ -97,7 +98,7 @@ const Login = () => {
     const showError = () => {
         return (
             <div
-                className="alert alert-danger"
+                className="alert alert--danger"
                 style={{ display: error ? '' : 'none' }}
             >
                 {error}
@@ -105,10 +106,11 @@ const Login = () => {
         );
     };
 
+    // Placeholder func in case something lags (probably during some async stuff) but we need to display something for the end user
     const showLoading = () => {
         if (loading) {
             return (
-                <div className="alert alert-info">
+                <div className="alert alert--info">
                     <h2>Loading...</h2>
                 </div>
             );
@@ -116,59 +118,23 @@ const Login = () => {
     };
 
     const redirectUser = () => {
-        if (redirectToReferrer) {
-            return <Redirect to="/user/dashboard" />;
-        }
+        // Placeholder functionality: could be modified to redirect to /user/dashboard when it is built
+        // if (redirectToReferrer) {
+        //     return <Redirect to="/" />;
+        // }
         if (isAuthenticated()) {
             return <Redirect to="/" />;
         }
     };
 
     return (
-        <div
-            title="Sign In"
-            description="Sign in to app"
-            className="container col-md-8 offset-md-2"
-        >
-            <h2>Sign In</h2>
+        <>
+            <h1>Sign In</h1>
             {showLoading()}
             {showError()}
             {signinForm()}
             {redirectUser()}
-        </div>
+        </>
     );
 };
 export default Login;
-
-// alternative rendering -- will likely delete later
-//    <div className="login-container">
-// <form className="login-container__form">
-// <h1 className="heading">Login</h1>
-// <div>
-//     <input
-//         placeholder="Name"
-//         className="joinInput"
-//         type="text"
-//         onChange={event => setName(event.target.value)}
-//     />
-// </div>
-// <div>
-//     <input
-//         placeholder="Room"
-//         className="joinInput mt-20"
-//         type="text"
-//         onChange={event => setRoom(event.target.value)}
-//     />
-// </div>
-// <Link
-//     onClick={e =>
-//         !username || !room ? e.preventDefault() : null
-//     }
-//     to={`/chat?username=${username}&room=${room}`}
-// >
-//     <button className="button mt-20" type="submit">
-//         Sign In
-//     </button>
-// </Link>
-// </form>
-// </div>

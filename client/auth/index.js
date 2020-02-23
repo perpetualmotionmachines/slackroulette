@@ -1,7 +1,7 @@
 /**
- * THIS IS THE ROUTE TO HIT -- MUST BE CHANGED WHEN DEPLOYING
+ * THIS IS THE SERVER ROUTE TO HIT -- MUST BE CHANGED WHEN DEPLOYING
  */
-const API = 'http://localhost:8000/api';
+const API = 'http://localhost:8080/api';
 
 // the user data comes from the submit, so it automatically contains all the props wrapped in an object that we can stringify
 export const signup = user => {
@@ -38,8 +38,14 @@ export const signin = user => {
         });
 };
 
+/**
+ * AUTHENTICATE METHOD -- GETS REFERNCED BY THE LOGIN COMPONENT
+ * sets a JSON Web Token in the cookies of the user
+ * data is received
+ */
+
 export const authenticate = (data, next) => {
-    // checks to make sure the window object is present
+    // checks to make sure the window object is present -- this should not run on the backend
     if (typeof window !== 'undefined') {
         localStorage.setItem('jwt', JSON.stringify(data));
         return next();
@@ -63,6 +69,7 @@ export const signout = next => {
     }
 };
 
+// Runs as a middleware on the Front-End to determine whether the user has already logged in -- checks to see if they have a JWT in their local storage (which would get stored during login)
 export const isAuthenticated = () => {
     // if no window, then this func does nothing
     if (typeof window === 'undefined') {
