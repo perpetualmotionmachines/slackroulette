@@ -1,11 +1,15 @@
 const SECRET = require('./config/db.js');
+
+const verifyUserController = require('./controllers/verifyUserController.js');
+const signupController = require('./controllers/signupController.js');
+const cookieController = require('./controllers/cookieController.js');
+
+const cookieParser = require('cookie-parser');
 const chatRouter = require('./routes/chatRoute.js');
-const signupRouter = require('./routes/signupRoute');
-const loginRouter = require('./routes/loginRoute');
 
 const createRoomController = require('./controllers/createRoomController');
-const signupController = require('./controllers/signupController');
-const verifyUserController = require('./controllers/verifyUserController');
+
+
 
 const path = require('path');
 const http = require('http');
@@ -23,13 +27,30 @@ const MONGO_URI = SECRET;
 mongoose.connect(MONGO_URI);
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 app.use('/chatRoute', chatRouter);
 
+app.post(
+    '/signup',
+    signupController.createUser,
+    cookieController.setCookie,
+    (req, res) => {
+        res.status(200).json(res.locals.cookie);
+    }
+);
+
+app.get('/', (req, res) => {
+    res.status(200).json(res.locals.cookieId);
+});
+
+app.use('/', (req, res) => {
+    res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'))});
 
 app.post('/signup', signupController.createUser, (req, res) => {
     res.status(200).render(path.join(__dirname, './client/App.jsx'));
+
 });
 
 app.post('/login', verifyUserController.verifyUser, (req, res) => {
