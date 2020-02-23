@@ -10,7 +10,7 @@ mongoose.connect(MONGO_URI);
 
 app.use(express.json());
 
-app.use('/chatRoute', chatRouter);
+app.use('/chatRoute/', chatRouter);
 
 app.use((req, res) => res.sendStatus(404));
 
