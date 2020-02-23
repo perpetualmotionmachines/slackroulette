@@ -9,19 +9,25 @@ const SignUp = () => {
     });
 
     // f(x) for post request to save user info
-    const handleSubmission = () => {
+    const handleSubmission = async () => {
         const body = {
-            email: inputs.email,
             username: inputs.username,
+            email: inputs.email,
             password: inputs.password
         };
-        fetch('/signup', {
+        console.log('in handle subs');
+        console.log('body: ', body);
+        await fetch('/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'Application/JSON'
             },
             body: JSON.stringify(body)
-        });
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log('yikes'));
+        console.log('fetch done');
     };
 
     const { email, username, password } = inputs;
@@ -35,7 +41,12 @@ const SignUp = () => {
                         type="text"
                         name="email"
                         value={email}
-                        onChange={e => setInputs({ email: e.target.value })}
+                        onChange={e =>
+                            setInputs({
+                                ...inputs,
+                                email: e.target.value
+                            })
+                        }
                     />
                 </label>
                 <label>
@@ -44,16 +55,26 @@ const SignUp = () => {
                         type="text"
                         name="username"
                         value={username}
-                        onChange={e => setInputs({ username: e.target.value })}
+                        onChange={e =>
+                            setInputs({
+                                ...inputs,
+                                username: e.target.value
+                            })
+                        }
                     />
                 </label>
                 <label>
                     Password:
                     <input
-                        type="password"
+                        type="text"
                         name="password"
                         value={password}
-                        onChange={e => setInputs({ password: e.target.value })}
+                        onChange={e =>
+                            setInputs({
+                                ...inputs,
+                                password: e.target.value
+                            })
+                        }
                     />
                 </label>
             </section>
