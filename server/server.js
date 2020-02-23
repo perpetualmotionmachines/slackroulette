@@ -2,6 +2,10 @@ const SECRET = require('./config/db.js');
 const chatRouter = require('./routes/chatRoute.js');
 const signupRouter = require('./routes/signupRoute');
 const loginRouter = require('./routes/loginRoute');
+const createRoomController = require('./controllers/createRoomController');
+const signupController = require('./controllers/signupController');
+const verifyUserController = require('./controllers/verifyUserController');
+
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -13,8 +17,20 @@ mongoose.connect(MONGO_URI);
 app.use(express.json());
 
 app.use('/chatRoute', chatRouter);
-app.use('/signup', signupRouter);
-app.use('/login', loginRouter);
+
+// app.use('/signup', signupRouter);
+
+app.post('/signup', signupController.createUser, (req, res) => {
+    res.status(200).render(path.join(__dirname, './client/App.jsx'));
+});
+// app.use('/login', loginRouter);
+app.post('/login', verifyUserController.verifyUser, (req, res) => {
+    res.status(200).render(path.join(__dirname, './client/App.jsx'));
+});
+// app.use('/create', createRouter);
+app.post('/create', createRoomController.createRoom, (req, res) => {
+    res.status(200).render(path.join(__dirname, ''));
+});
 
 app.use((req, res) => res.sendStatus(404));
 
