@@ -19,18 +19,16 @@ app.use(express.json());
 
 app.use('/chatRoute', chatRouter);
 
-// app.use('/signup', signupRouter);
-
 app.post('/signup', signupController.createUser, (req, res) => {
     res.status(200).render(path.join(__dirname, './client/App.jsx'));
 });
-// app.use('/login', loginRouter);
+
 app.post('/login', verifyUserController.verifyUser, (req, res) => {
     res.status(200).render(path.join(__dirname, './client/App.jsx'));
 });
-// app.use('/create', createRouter);
+
 app.post('/create', createRoomController.createRoom, (req, res) => {
-    res.status(200).render(path.join(__dirname, ''));
+    res.status(200).render(path.join(__dirname, './client/ChatBox.jsx'));
 });
 
 app.use((req, res) => res.sendStatus(404));
@@ -45,7 +43,6 @@ app.use((err, req, res, next) => {
     console.log(errorObj.log);
     return res.status(errorObj.status).json(errorObj.message);
 });
-
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

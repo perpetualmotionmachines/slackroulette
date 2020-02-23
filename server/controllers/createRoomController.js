@@ -3,6 +3,7 @@ const { Room } = model;
 const createRoomController = {};
 
 createRoomController.createRoom = (req, res, next) => {
+    //takes roomname and topic from request body and uses Room schema to create a new collection in the database
     const { roomName, topic } = req.body;
     const newRoom = {
         roomName,
