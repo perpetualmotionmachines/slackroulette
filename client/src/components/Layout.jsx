@@ -3,6 +3,7 @@ import Menu from './Menu';
 import ChatboxMini from './ChatboxMini'
 import socketIOClient from "socket.io-client";
 import '../stylesheets/styles.css'
+import ChatRoom from './chatRoom/ChatRoom'
 
 
 const Layout = ({
@@ -13,7 +14,7 @@ const Layout = ({
     children
 }) => {
 
-    //opening socket
+    // opening socket
     // const endpoint = "http://localhost:3001";
     // const socket = socketIOClient(endpoint);
     // socket.on('join', function (data) {
@@ -39,7 +40,9 @@ const Layout = ({
     let j = 0;
     //populating layout with chatboxminis
     while (j < 20) {
-        chatboxes.push(<ChatboxMini key={`mini ${j}`} logs={logs[j]}/>);
+        chatboxes.push(<ChatRoom key={`mini ${j}`} logs={logs[j]}/>);
+
+        // chatboxes.push(<ChatboxMini key={`mini ${j}`} logs={logs[j]}/>);
         j++;
     }
 

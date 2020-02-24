@@ -65,6 +65,16 @@ const Menu = ({ history }) => (
                             Signup
                         </Link>
                     </li>
+
+                    <li className="nav-item">
+                        <Link
+                            className="nav-link"
+                            style={isActive(history, '/create')}
+                            to="/create"
+                        >
+                            Create Room
+                        </Link>
+                    </li>
                 </Fragment>
             )}
 

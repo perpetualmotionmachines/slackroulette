@@ -15,22 +15,22 @@ const Chat = ({ location }) => {
     const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const ENDPOINT = 'http://localhost:3000/';
+    const ENDPOINT = 'http://localhost:3001/';
 
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search);
+        // const { name, room } = queryString.parse(location.search);
 
         socket = io(ENDPOINT);
 
-        setRoom(room);
-        setName(name);
+        setRoom('0');
+        setName('Tony');
 
         socket.emit('join', { name, room }, error => {
             if (error) {
                 alert(error);
             }
         });
-    }, [ENDPOINT, location.search]);
+    }, [ENDPOINT]);
 
     useEffect(() => {
         socket.on('message', message => {
@@ -57,7 +57,7 @@ const Chat = ({ location }) => {
     };
 
     return (
-        <div className="outerContainer">
+        <div className="outerContainer" >
             <div className="container">
                 <InfoBar room={room} />
                 <Messages messages={messages} name={name} />
