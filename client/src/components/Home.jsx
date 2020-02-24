@@ -10,8 +10,9 @@ const Home = () => {
                 description="Join a room to chat about a topic"
                 className="container-fluid"
             />
-
-            <RoomContainer />
+            <div className="roomContainer">
+                <RoomContainer />
+            </div>
         </div>
     );
 };
