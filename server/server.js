@@ -1,64 +1,75 @@
-const SECRET = require('./config/db.js');
-
-const verifyUserController = require('./controllers/verifyUserController.js');
-const signupController = require('./controllers/signupController.js');
-const cookieController = require('./controllers/cookieController.js');
-const createRoomController = require('./controllers/createRoomController');
-
-const cookieParser = require('cookie-parser');
-const chatRouter = require('./routes/chatRoute.js');
-const signupRouter = require('./routes/signupRoute');
-const loginRouter = require('./routes/loginRoute');
-
-const path = require('path');
-const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
-const socketio = require('socket.io');
+const cookieParser = require('cookie-parser');
+// Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
+const dotenv = require('dotenv');
+// cors is necessary to avoid requests being rejected by the server -- DO NOT DELETE UNLESS YOU ARE A PRO
 const cors = require('cors');
+/**
+ * Express validator is used to validate inputs and report errors BEFORE saving something to the database
+ * See more details in /validator/signUpValidator
+ */
+const expressValidator = require('express-validator');
+const http = require('http');
+const socketio = require('socket.io');
 
+/**
+ * IMPORT ROUTE HANDLERS HERE
+ *
+ *  :)
+ */
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+// extract modules from users to handle socketIO stuff
+const {
+    addUser,
+    removeUser,
+    getUser,
+    getUsersInRoom
+} = require('./controllers/socketController');
+
+/**
+ * This imports the config information that we set in .env
+ * This includes the PORT, the JWT_SECRET, and MONGO_URI
+ *
+ * the .env file will NOT be uploaded to github because its in the .gitignore
+ *
+ * please reach out to Eevee team for contents of .env
+ */
+dotenv.config();
+
+// Connects to mongodb and fires a success/error messages
+mongoose
+    .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+    .then(() => console.log('DB Connected'));
+// Can this line be refactored to be included in the above code block???
+mongoose.connection.on('error', err => {
+    console.log(`DB connection error: ${err.message}`);
+});
+
+/**
+ * Start our Express server -> create an http server (socketio requirement) -> start socketio
+ */
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const PORT = process.env.PORT || 3000;
-const MONGO_URI = SECRET;
-mongoose.connect(MONGO_URI);
-
+/**
+ *
+ * UTILIZE/IMPORT MIDDLESWARES HERE
+ *
+ */
 app.use(express.json());
 app.use(cookieParser());
+app.use(expressValidator());
+// Helps handle reqs from different port origins (ie frontend on 3001 can communicate with backend on port 8000)
 app.use(cors());
 
-app.post(
-    '/signup',
-    signupController.createUser,
-    cookieController.setCookie,
-    (req, res) => {
-        res.status(200).json(res.locals.cookie);
-    }
-);
-
-app.get('/', (req, res) => {
-    res.status(200).json(res.locals.cookieId);
-});
-
-app.use('/', (req, res) => {
-    res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
-});
-
-app.use('/chatRoute', chatRouter);
-
-app.post('/signup', signupController.createUser, (req, res) => {
-    res.status(200).render(path.join(__dirname, './client/App.jsx'));
-});
-
-app.post('/login', verifyUserController.verifyUser, (req, res) => {
-    res.status(200).render(path.join(__dirname, './client/App.jsx'));
-});
-
-app.post('/create', createRoomController.createRoom, (req, res) => {
-    res.status(200).render(path.join(__dirname, './client/ChatBox.jsx'));
-});
+// route middlewares
+// This route is used for authenticating/signing up
+app.use('/api', authRoutes);
+// This route is for handling user dashboard routes
+app.use('/api', userRoutes);
 
 /**
  * THE BELOW CODE IMPLEMENTS SOCKET FUNCTIONALITY VIA SOCKET.IO;
@@ -140,8 +151,7 @@ io.on('connect', socket => {
  */
 app.use((req, res) => res.sendStatus(404));
 
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+    console.log(`listening on port ${port}`);
 });
-
-module.exports = app;
