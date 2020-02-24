@@ -1,0 +1,25 @@
+body {
+    background: linear-gradient(-45deg, #b5eafd, #23a6d5, #23d5ab, #2424aa);
+    background-size: 600% 600%;
+    animation: gradient 10s ease infinite;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.text-muted {
+    color: white !important;
+}
+
+.jumbotron {
+    background-color: white !important;
+    height: 180px !important;
+}
