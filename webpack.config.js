@@ -5,7 +5,7 @@ module.exports = {
     entry: path.join(__dirname, 'client/index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        // publicPath: '/',
+        publicPath: '/',
         filename: 'bundle.js'
     },
     devtool: 'eval-source-map',
@@ -15,8 +15,7 @@ module.exports = {
         port: 8080,
         // match the output path
         contentBase: path.resolve(__dirname, 'dist'),
-        // enable HMR on the devServer
-        hot: true,
+
         // match the output 'publicPath'
         publicPath: '/',
         // fallback to root for other urls
@@ -24,7 +23,8 @@ module.exports = {
 
         inline: true,
 
-        headers: { 'Access-Control-Allow-Origin': '*' },
+        //CORS WILL BREAK MONGOOSE.
+        // headers: { 'Access-Control-Allow-Origin': '*' },
         /**
          * proxy is required in order to make api calls to
          * express server while using hot-reload webpack server
@@ -32,12 +32,16 @@ module.exports = {
          * to localhost:3000/api/* (where our Express server is running)
          */
         proxy: {
-            '/chatRoute/**': {
-                target: 'http://localhost:3000/',
-                secure: false
-            },
-            '/api/**': {
-                target: 'http://localhost:3000/',
+            // '/chatRoute/**': {
+            //     target: 'http://localhost:3000/',
+            //     secure: false
+            // },
+            // '/api/**': {
+            //     target: 'http://localhost:3000/',
+            //     secure: false
+            // }
+            '/': {
+                target: 'http://localhost:3000',
                 secure: false
             }
         }
