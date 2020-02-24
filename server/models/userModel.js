@@ -1,46 +1,81 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const secret = require('../config/db.js');
+// crypto lib, similar to bcrypt
+const crypto = require('crypto');
 
-const MONGO_URI = secret;
+const uuidv1 = require('uuid/v1');
 
-mongoose
-    .connect(MONGO_URI, {
-        // options for the connect method to parse the URI
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        // sets the name of the DB that our collections are part of
-        dbName: 'eevee'
+const userSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            trim: true,
+            required: true,
+            maxlength: 32
+        },
+        email: {
+            type: String,
+            trim: true,
+            required: true,
+            unique: true
+        },
+        hashed_password: {
+            type: String,
+            required: true
+        },
+        about: {
+            type: String,
+            trim: true
+        },
+        salt: String,
+        role: {
+            type: Number,
+            default: 0
+        },
+        history: {
+            type: Array,
+            default: []
+        }
+    },
+    { timestamps: true }
+);
+
+/**
+ * Virtual mongoose field -- https://mongoosejs.com/docs/tutorials/virtuals.html
+ * Takes the password in and then creates an encrypted password
+ * REFACTOR ALERT: This bit would not be necessary if using userSchema.pre and bcrypt library
+ */
+userSchema
+    .virtual('password')
+    .set(function(password) {
+        this._password = password;
+        this.salt = uuidv1();
+        this.hashed_password = this.encryptPassword(password);
     })
-    .then(() => console.log('Connected to Mongo DB.'))
-    .catch(err => console.log(err));
-
-const bcrypt = require('bcrypt');
-
-const UserSchema = new Schema({
-    username: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true
-    },
-    email: {
-        type: String,
-        trim: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-});
-
-UserSchema.pre('save', function(next) {
-    bcrypt.hash(this.password, 10, (err, hash) => {
-        if (err) return err;
-        this.password = hash;
-        return next();
+    .get(function() {
+        return this._password;
     });
-});
 
-module.exports = User = mongoose.model('user', UserSchema);
+/**
+ * built in methods that WILL be invoked outside this file
+ * IE: User.authenticate or User.encryptPassword
+ */
+
+userSchema.methods = {
+    authenticate(plainText) {
+        return this.encryptPassword(plainText) === this.hashed_password;
+    },
+
+    encryptPassword(password) {
+        if (!password) return '';
+        try {
+            return crypto
+                .createHmac('sha1', this.salt)
+                .update(password)
+                .digest('hex');
+        } catch (err) {
+            return '';
+        }
+    }
+};
+
+module.exports = mongoose.model('User', userSchema);
