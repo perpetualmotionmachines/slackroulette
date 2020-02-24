@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 // Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
 const dotenv = require('dotenv');
 // cors is necessary to avoid requests being rejected by the server -- DO NOT DELETE UNLESS YOU ARE A PRO
@@ -12,6 +13,7 @@ const cors = require('cors');
 const expressValidator = require('express-validator');
 const http = require('http');
 const socketio = require('socket.io');
+const roomController = require('./controllers/roomController.js');
 
 /**
  * IMPORT ROUTE HANDLERS HERE
@@ -39,13 +41,30 @@ const {
 dotenv.config();
 
 // Connects to mongodb and fires a success/error messages
+//***WASN'T ABLE TO CONNECT TO MONGO SO I EXPLICITY WROTE THE URI HERE */
+MONGO_URI =
+    'mongodb+srv://eevee:eevee@cluster0-nphgk.mongodb.net/test?retryWrites=true&w=majority';
+
 mongoose
-    .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+    .connect(MONGO_URI, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        dbName: 'eevee'
+    })
     .then(() => console.log('DB Connected'));
 // Can this line be refactored to be included in the above code block???
 mongoose.connection.on('error', err => {
     console.log(`DB connection error: ${err.message}`);
 });
+// ***BELOW CODE DOESN'T ALLOW ME TO CONNECT TO DATABASE***
+// mongoose
+//     .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+//     .then(() => console.log('DB Connected'));
+// // Can this line be refactored to be included in the above code block???
+// mongoose.connection.on('error', err => {
+//     console.log(`DB connection error: ${err.message}`);
+// });
 
 /**
  * Start our Express server -> create an http server (socketio requirement) -> start socketio
@@ -65,6 +84,13 @@ app.use(expressValidator());
 // Helps handle reqs from different port origins (ie frontend on 3001 can communicate with backend on port 8000)
 app.use(cors());
 
+app.post('/create', roomController.createRoom, (req, res) => {
+    res.status(200).redirect('/');
+});
+
+app.get('/', roomController.getRooms, (req, res) => {
+    res.status(200).json(res.locals.rooms);
+});
 // route middlewares
 // This route is used for authenticating/signing up
 app.use('/api', authRoutes);
@@ -145,10 +171,21 @@ io.on('connect', socket => {
     });
 });
 
+// route for creating new rooms
+// app.post('/api/create', roomController.createRoom, (req, res) => {
+//     res.status(200).json('hello');
+// });
+// catch all for sending html file
+app.use('*', (req, res) => {
+    res.status(200).sendFile(
+        path.resolve(__dirname, '../client/public/index.html')
+    );
+});
 /**
  * CATCH ALL FUNCTION FOR 404 ERRORS
  * Only fires if the previous routes are not hit
  */
+
 app.use((req, res) => res.sendStatus(404));
 
 const port = process.env.PORT || 3001;
