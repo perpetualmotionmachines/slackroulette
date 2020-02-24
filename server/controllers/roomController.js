@@ -26,6 +26,7 @@ roomController.getRooms = (req, res, next) => {
         .exec()
         .then(results => {
             res.locals.rooms = results;
+            console.log(res.locals.rooms);
             return next();
         })
         .catch(err => {

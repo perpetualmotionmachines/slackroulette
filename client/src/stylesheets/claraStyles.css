@@ -23,3 +23,21 @@ body {
     background-color: white !important;
     height: 180px !important;
 }
+
+.roomContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.roomCard {
+    height: 400px;
+    width: 400px;
+    background-color: white;
+    margin: 5px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+    opacity: 0.8;
+}
