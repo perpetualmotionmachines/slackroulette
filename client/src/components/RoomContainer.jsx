@@ -49,9 +49,13 @@ const RoomContainer = () => {
         return (
             <div className="roomCard">
                 <header className="roomCardHeader">
-                    <h4>{rm.roomName}</h4>
+                    <h4>
+                        <b>{rm.roomName}</b>
+                    </h4>
                     <br />
-                    <h6>{rm.topic}</h6>
+                    <h6>
+                        Topic:&nbsp;&nbsp;<b>{rm.topic}</b>
+                    </h6>
                 </header>
                 <div className="roomBox">
                     <div className="messageContainer">{showTexts}</div>
