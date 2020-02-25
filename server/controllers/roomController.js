@@ -1,5 +1,6 @@
 const roomController = {};
 const { chatRoom } = require('../models/roomModel');
+const { Text } = require('../models/textModel');
 
 //create a new room
 roomController.createRoom = (req, res, next) => {
@@ -26,7 +27,6 @@ roomController.getRooms = (req, res, next) => {
         .exec()
         .then(results => {
             res.locals.rooms = results;
-            console.log(res.locals.rooms);
             return next();
         })
         .catch(err => {
@@ -35,6 +35,35 @@ roomController.getRooms = (req, res, next) => {
                 message: { err: 'error occurred' }
             });
         });
+};
+roomController.getText = (req, res, next) => {
+    console.log('in get text serv');
+    Text.find({})
+        .exec()
+        .then(results => {
+            res.locals.texts = results;
+            return next();
+        })
+        .catch(err => {
+            return next({
+                log: 'Middleware error: getText',
+                message: { err: 'error occurred' }
+            });
+        });
+};
+roomController.sendText = (req, res, next) => {
+    console.log('in send text serv');
+    const textInfo = {
+        text: req.body.text
+    };
+    Text.create(textInfo, (err, result) => {
+        console.log('in text create');
+        if (err) return next(err);
+        else {
+            res.locals.newText = result;
+            next();
+        }
+    });
 };
 
 module.exports = roomController;

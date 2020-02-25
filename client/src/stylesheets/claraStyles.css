@@ -28,6 +28,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 .roomCard {
     height: 400px;
@@ -40,4 +41,26 @@ body {
     justify-content: flex-start;
     padding: 10px;
     opacity: 0.8;
+}
+
+.roomBox {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    height: 500px;
+}
+
+.messageContainer {
+    height: 200px;
+}
+
+.messageBox {
+    align-self: flex-end;
+}
+
+.textBubble {
+    background-color: rgb(210, 210, 255);
+    margin: 2px;
+    border-radius: 10px;
+    padding: 2px;
 }

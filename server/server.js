@@ -88,9 +88,16 @@ app.post('/create', roomController.createRoom, (req, res) => {
     res.status(200).redirect('/');
 });
 
-app.get('/', roomController.getRooms, (req, res) => {
-    res.status(200).json(res.locals.rooms);
+app.get('/', roomController.getRooms, roomController.getText, (req, res) => {
+    res.status(200).json({
+        rooms: res.locals.rooms,
+        texts: res.locals.texts
+    });
 });
+app.post('/', roomController.sendText, roomController.getText, (req, res) => {
+    res.status(200).json(res.locals.texts);
+});
+
 // route middlewares
 // This route is used for authenticating/signing up
 app.use('/api', authRoutes);
