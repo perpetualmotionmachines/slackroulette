@@ -47,7 +47,7 @@ body {
     display: flex;
     flex-direction: column;
     align-content: flex-end;
-    height: 300px;
+    height: 500px;
 }
 
 .messageContainer {
@@ -56,4 +56,11 @@ body {
 
 .messageBox {
     align-self: flex-end;
+}
+
+.textBubble {
+    background-color: rgb(210, 210, 255);
+    margin: 2px;
+    border-radius: 10px;
+    padding: 2px;
 }

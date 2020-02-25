@@ -42,7 +42,7 @@ const RoomContainer = () => {
 
     // }, [setMessage]);
     const showTexts = textMess.map(txt => {
-        return <div>{txt.text}</div>;
+        return <div className="textBubble">&nbsp;&nbsp;{txt.text}</div>;
     });
 
     const showRooms = rooms.map(rm => {
