@@ -36,6 +36,7 @@ const RoomContainer = () => {
             const json = await response.json();
             console.log('room json', json);
             setRooms(json.rooms);
+            setTextMess(json.texts);
         };
         getRooms();
     }, [setRooms]);
