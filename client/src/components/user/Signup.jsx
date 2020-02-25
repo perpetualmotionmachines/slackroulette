@@ -72,7 +72,7 @@ const Signup = () => {
                     <label className="text-muted">Password</label>
                     <input
                         onChange={handleChange('password')}
-                        type="text"
+                        type="password"
                         className="form-control"
                         value={password}
                     />
