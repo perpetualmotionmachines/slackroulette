@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Layout from './Layout';
+import {Link} from 'react-router-dom'
 
 const API = 'http://localhost:3001';
 
@@ -30,7 +31,6 @@ const CreateRoom = () => {
             .catch(err => {
                 console.log(err);
             });
-        event.preventDefault();
     };
 
     const { roomName, topic } = roomInfo;
@@ -67,6 +67,7 @@ const CreateRoom = () => {
                         value={topic}
                     />
                 </div>
+                <Link to='/'>
                 <button
                     onClick={e => {
                         roomSubmission(e);
@@ -75,6 +76,7 @@ const CreateRoom = () => {
                 >
                     Create
                 </button>
+                </Link>
             </form>
         );
     };
